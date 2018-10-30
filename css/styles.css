@@ -17,17 +17,16 @@
 
 /* Шрифты */
 .number {
+    width: 100px;
+    text-align: center;
     font-family: Montserrat;
     font-weight: bold;
     color: #ffffff;
+    font-size: 35px;
 }
 
 .number_small {
     font-size: 24px;
-}
-
-.number_big {
-    font-size: 35px;
 }
 
 /* Верхнее меню */
@@ -49,11 +48,8 @@
     left: 0;
     justify-content: center;
     align-items: center;
-    background-image: url(../images/star.svg);
-    background-repeat: no-repeat;
-    background-position: center 45%;
-    background-color: #ffffff;
     border-radius: 100%;
+    background-color: #ffffff;
     box-shadow: 1px 1px 4px rgba(0,0,0,0.25);
     z-index: 2;
 }
@@ -64,7 +60,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 55px;
+    padding-right: 25px;
     background-color: #a0b4be;
     border: 10px solid #ffffff;
     box-sizing: border-box;
@@ -92,10 +88,13 @@
     width: 22px;
     height: 20px;
     display: flex;
+}
+
+.character-bar__heart_alive {
     background-image: url(../images/heart-alive.svg);
 }
 
-.heart_dead {
+.character-bar__heart_dead {
     background-image: url(../images/heart-dead.svg);
 }
 
@@ -120,10 +119,16 @@
     text-transform: uppercase;
     border-radius: 62px;
     box-shadow: 0 4px 4px rgba(0,0,0,0.25);
-    border: none;
+    border: 6px solid #ffffff;
+    box-sizing: border-box;
     margin-right: 17px;
     cursor: pointer;
     outline: none;
+}
+
+.start-bar__start-btn:hover {
+    background-color: #27a8f3;
+    color: #ffffff;
 }
 
 .start-bar__question-btn {
@@ -136,21 +141,27 @@
     color: #27a8f3;
     border-radius: 100%;
     box-shadow: 0 4px 4px rgba(0,0,0,0.25);
-    border: none;
+    border: 6px solid #ffffff;
+    box-sizing: border-box;
     cursor: pointer;
     outline: none;
+}
+
+.start-bar__question-btn:hover {
+    background-color: #27a8f3;
+    color: #ffffff;
 }
 
 /* Грядки и эмодзи */
 
 .playing-zone-wrapper {
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 
 .playing-zone {
-    width: 70%;
-    height: 400px;
+    width: 800px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -257,6 +268,34 @@
 .appearance-animal {
     animation: appearance 1s ease-in-out;
 }
+
+.character-bar__star {
+    width: inherit;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../images/star.svg);
+    background-repeat: no-repeat;
+    background-position: center 45%;
+}
+
+.star-animate {
+    animation: new-lavel-animation 1s ease-in-out;
+}
+
+@keyframes new-lavel-animation {
+    FROM {
+        transform: rotateY(0) scale(1) translateY(0);
+    }
+    50% {
+        transform: rotateY(360deg) scale(1.5) translateY(-20%);
+    }
+    TO {
+        transform: rotateY(0) scale(1) translateY(0);
+    }
+}
+
 @keyframes appearance {
     FROM {
         opacity: 0;
@@ -271,7 +310,6 @@
 /* Попапы */
 
 #popup-game-over {
-    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -279,7 +317,6 @@
 }
 
 #popup-rules {
-    display: none;
     position: fixed;
     justify-content: center;
     top: 50%;
@@ -331,12 +368,13 @@
 }
 
 .popup__result {
-    width: 250px;
+    width: 300px;
     line-height: 70px;
     font-family: Montserrat;
     font-size: 160px;
     font-weight: 800;
     color: #ffffff;
+    text-align: center;
 }
 
 .popup__result-mini {
@@ -382,4 +420,13 @@
     border: 8px solid #ffffff;
     border-radius: 62px;
     box-sizing: border-box;
+    cursor: pointer;
+}
+
+.popup__accept:hover {
+    background-color: #ffc700;
+}
+
+.dn {
+    display: none;
 }

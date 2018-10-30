@@ -12,17 +12,19 @@
             <header class="header">
                 <div class="character-bar">
                     <div class="character-bar__level">
-                        <p class="number number_small">3</p>
+                        <div class="character-bar__star">
+                            <p class="number number_small">1</p>
+                        </div>
                     </div>
 
                     <div class="character-bar__points">
-                        <p class="number number_big">128</p>
+                        <p class="number" id="game-points">0</p>
                     </div>
 
                     <div class="character-bar__health">
-                        <div class="character-bar__heart"></div>
-                        <div class="character-bar__heart"></div>
-                        <div class="character-bar__heart heart_dead"></div>
+                        <div class="character-bar__heart character-bar__heart_alive"></div>
+                        <div class="character-bar__heart character-bar__heart_alive"></div>
+                        <div class="character-bar__heart character-bar__heart_alive"></div>
                     </div>
 
                 </div>
@@ -35,17 +37,13 @@
                 <div class="playing-zone">
                     <div class="playing-zone__hole"></div>
                     <div class="playing-zone__hole"></div>
-                    <div class="playing-zone__hole">
-                        <div class="playing-zone__mouse appearance-animal"></div>
-                    </div>
-                    <div class="playing-zone__hole">
-                        <div class="playing-zone__lion appearance-animal"></div>
-                    </div>
+                    <div class="playing-zone__hole"></div>
+                    <div class="playing-zone__hole"></div>
                     <div class="playing-zone__hole"></div>
                 </div>
             </div>
         </section>
-        <div class="popup" id="popup-game-over">
+        <div class="popup dn" id="popup-game-over">
             <div class="popup__header">
                 <p class="popup__title">Игра завершена</p>
             </div>
@@ -55,7 +53,7 @@
                 <p class="popup__text-big">Ок</p>
             </div>
         </div>
-        <div class="popup" id="popup-rules">
+        <div class="popup dn" id="popup-rules">
             <div class="popup__header">
                 <p class="popup__title">Правила игры</p>
             </div>
@@ -69,5 +67,6 @@
                 <p class="popup__text-big">Ок</p>
             </div>
         </div>
+        <script type="text/javascript" src ="scripts.js"></script>
     </body>
 </html>
