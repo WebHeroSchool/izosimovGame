@@ -187,86 +187,16 @@
     margin-right: 100px;
 }
 
-.playing-zone__lion::before {
-    content: "🦁";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__mouse::before  {
-    content: "🐭";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__panda::before  {
-    content: "🐼";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__bear::before  {
-    content: "🐻";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__fox::before  {
-    content: "🦊";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__cat::before  {
-    content: "🐱";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__cow::before  {
-    content: "🐮";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__pig::before  {
-    content: "🐽";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__koala::before  {
-    content: "🐨";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__rabbit::before  {
-    content: "🐰";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
-.playing-zone__tiger::before  {
-    content: "🐯";
-    font-size: 160px;
-    display: flex;
-    justify-content: center;
-}
-
 /* Анимация */
 .appearance-animal {
     animation: appearance 1s ease-in-out;
+}
+
+.appearance-animal::before {
+    content: attr(data-emoji);
+    font-size: 160px;
+    display: flex;
+    justify-content: center;
 }
 
 .character-bar__star {
