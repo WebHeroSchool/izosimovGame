@@ -36,7 +36,6 @@ class CathMouse {
 
         // Этот while нужен, чтобы "чистить" грядки от эмоджи, по которым мы не кликали
         while (this.existingEmojies.length) {
-            console.log('kekes');
             this.existingEmojies[0].remove();
         };
 
