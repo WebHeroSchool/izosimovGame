@@ -1,6 +1,12 @@
 class CatchMouse {
     constructor() {
         this.isRunning = false;
+        this.speed = 2000;
+        this.score = 0;
+        this.level = 1;
+        this.lives = 3;
+        this.levelUpdated = true;
+
 
         this.emojies = {
             lion: '🦁',
@@ -19,31 +25,30 @@ class CatchMouse {
         this.rightEmoji = 'mouse';
 
         this.holes = document.getElementsByClassName('playing-zone__hole');
-        this.existingEmojies = document.getElementsByClassName('appearance-animal');
+        this.existingEmoji = document.getElementsByClassName('appearance-animal');
         this.pointsElement = document.getElementById('game-points');
         this.currentLevel = document.querySelector('.character-bar__star .number_small');
         this.hearts = document.getElementsByClassName('character-bar__heart');
 
         this.createEmoji = this.createEmoji.bind(this);
+        this.emojiClickHandler = this.emojiClickHandler.bind(this);
     }
     startGame() {
         this.isRunning = true;
-        const {score, level, lives, speed} = this.logic(true);
-        this.syncLevel(level);
-        this.syncHealth(lives);
-        this.syncPoints(score);
-        this.speed = speed;
+        this.syncLevel();
+        this.syncHealth();
+        this.syncPoints();
 
         this.createEmoji();
         this.intervalId = setInterval(this.createEmoji, this.speed);
     }
     createEmoji() {
 
-        // Этот while нужен, чтобы "чистить" грядки от эмоджи, по которым мы не кликали
-        while (this.existingEmojies.length) {
-            const data = this.logic(false, this.score, this.level, this.lives, this.existingEmojies[0].dataset.emojiName, this.rightEmoji, false);
-            this.syncHealth(data.lives);
-            this.existingEmojies[0].remove();
+        // Это условие нужно, чтобы "чистить" грядки от эмоджи, по которым мы не кликали
+        if (this.existingEmoji.length) {
+            this.logic(false);
+            this.syncHealth();
+            this.existingEmoji[0].remove();
         };
 
         if (!this.isRunning) return;
@@ -64,55 +69,40 @@ class CatchMouse {
         emoji.dataset.emoji = this.emojies[emojiType];
         emoji.dataset.emojiName = emojiType;
         this.holes[randomHoleIndex].appendChild(emoji);
-        emoji.addEventListener('click', this.emojiClickHandler.bind(this, emoji));
+        this.currentEmoji = emojiType;
+        emoji.addEventListener('click', this.emojiClickHandler);
     }
-    emojiClickHandler(emoji) {
-        const data = this.logic(false, this.score, this.level, this.lives, emoji.dataset.emojiName, this.rightEmoji);
-        const {score, level, lives, speed} = data;
-        this.syncLevel(level);
-        this.syncHealth(lives);
-        this.syncPoints(score);
-        this.speed = speed;
-
+    emojiClickHandler(event) {
+        this.logic();
+        this.syncLevel();
+        this.syncHealth();
+        this.syncPoints();
+        const emoji = event.target;
         clearInterval(this.intervalId);
         emoji.remove();
 
         this.createEmoji();
         this.intervalId = setInterval(this.createEmoji, this.speed);
     }
-    logic(newGame, score, level, lives, currentEmoji, rightEmoji, clicked=true) {
-        const INITIAL_SPEED = 2000;
-        if (newGame) return {
-            score: 0, level: 1, lives: 3, speed: INITIAL_SPEED
-        };
-
-        let newScore = score;
-        let newLevel = level;
-        let newLives = lives;
-
+    logic(clicked=true) {
         if (clicked) {
-            if (currentEmoji === rightEmoji) {
-                newScore += 10;
-                if (newScore % 50 === 0) {
-                    newLevel += 1;
+            if (this.currentEmoji === this.rightEmoji) {
+                this.score += 10;
+                if (this.score % 50 === 0) {
+                    this.level += 1;
+                    this.levelUpdated = true;
+
+                    this.speed = 2000 - (300 * this.level);
                 };
             } else {
-                newLives -= 1;
+                this.lives -= 1;
             }
         } else {
-            if (currentEmoji === rightEmoji) {
-                newLives -= 1;
+            if (this.currentEmoji === this.rightEmoji) {
+                this.lives -= 1;
             }
         }
 
-        const newSpeed = INITIAL_SPEED - (100 * newLevel);
-
-        return {
-            score: newScore,
-            level: newLevel,
-            lives: newLives,
-            speed: newSpeed
-        };
     }
     endGame() {
         this.isRunning = false;
@@ -120,43 +110,36 @@ class CatchMouse {
     }
 
 
-    syncLevel(level) {
-        if (this.level === level) return;
+    syncLevel() {
+        if (!this.levelUpdated) return;
+        this.levelUpdated = false;
         const levelDisplay = document.querySelector('.character-bar__star');
+
         if (levelDisplay.classList.contains('star-animate')) {
             setTimeout(() => {
                 levelDisplay.classList.toggle("star-animate");
             }, 0)
         }
         levelDisplay.classList.toggle("star-animate");
-        this.level = level;
-        this.currentLevel.textContent = level;
+        this.currentLevel.textContent = this.level;
+
     }
-    syncPoints(score) {
-        if (this.score === score) return;
-        this.score = score;
-        this.pointsElement.textContent = score;
+    syncPoints() {
+        this.pointsElement.textContent = this.score;
     }
-    syncHealth(lives) {
-        if (this.lives === lives) return;
-        if (lives === 0) {
+    syncHealth() {
+        if (this.lives === 0) {
             this.endGame();
         }
-        this.lives = lives;
 
         for (var i = 0; i < this.hearts.length; i++) {
+            this.hearts[i].classList.remove('character-bar__heart_alive', 'character-bar__heart_dead');
+        }
+        for (var i = 0; i < this.hearts.length; i++) {
             if (i < this.lives) {
-                if (!(this.hearts[i].classList.contains('character-bar__heart_alive'))) {
-                    this.hearts[i].classList.add('character-bar__heart_alive');
-                    this.hearts[i].classList.remove('character-bar__heart_dead');
-                }
+                this.hearts[i].classList.add('character-bar__heart_alive');
             } else {
-                if (this.hearts[i].classList.contains('character-bar__heart_alive')) {
-                    this.hearts[i].classList.add('character-bar__heart_dead');
-                    this.hearts[i].classList.remove('character-bar__heart_alive');
-                } else if (!(this.hearts[i].classList.contains('character-bar__heart_dead'))) {
-                    this.hearts[i].classList.add('character-bar__heart_dead');
-                }
+                this.hearts[i].classList.add('character-bar__heart_dead');
             }
         }
     }
