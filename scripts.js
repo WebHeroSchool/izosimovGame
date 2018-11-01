@@ -25,7 +25,8 @@ class CatchMouse {
         this.rightEmoji = 'mouse';
 
         this.holes = document.getElementsByClassName('playing-zone__hole');
-        this.existingEmoji = document.getElementsByClassName('appearance-animal');
+        // this.existingEmoji = document.getElementsByClassName('appearance-animal');
+        // this.existingEmoji = document.getElementsByClassName('appearance-animal');
         this.pointsElement = document.getElementById('game-points');
         this.currentLevel = document.querySelector('.character-bar__star .number_small');
         this.hearts = document.getElementsByClassName('character-bar__heart');
@@ -45,10 +46,13 @@ class CatchMouse {
     createEmoji() {
 
         // Это условие нужно, чтобы "чистить" грядки от эмоджи, по которым мы не кликали
-        if (this.existingEmoji.length) {
+        const existingEmoji = document.querySelector('.appearance-animal');
+        if (existingEmoji) {
             this.logic(false);
             this.syncHealth();
-            this.existingEmoji[0].remove();
+            if (existingEmoji) {
+                existingEmoji.remove();
+            };
         };
 
         if (!this.isRunning) return;
@@ -77,6 +81,8 @@ class CatchMouse {
         this.syncLevel();
         this.syncHealth();
         this.syncPoints();
+
+        if (!this.isRunning) return;
         const emoji = event.target;
         clearInterval(this.intervalId);
         emoji.remove();
@@ -85,6 +91,8 @@ class CatchMouse {
         this.intervalId = setInterval(this.createEmoji, this.speed);
     }
     logic(clicked=true) {
+        if (!this.isRunning) return
+
         if (clicked) {
             if (this.currentEmoji === this.rightEmoji) {
                 this.score += 10;
@@ -107,6 +115,20 @@ class CatchMouse {
     endGame() {
         this.isRunning = false;
         clearInterval(this.intervalId);
+        const existingEmoji = document.querySelector('.appearance-animal');
+        if (existingEmoji) {
+            existingEmoji.remove();
+        };
+
+        const endGamePopup = document.getElementById('popup-game-over');
+        const totalScore = document.querySelector('#popup-game-over .popup__result');
+        totalScore.innerHTML = `${this.score} <span class="popup__result-mini">очков!</span>`;
+        const acceptResults = document.querySelector('#popup-game-over .popup__accept');
+
+        endGamePopup.classList.remove('dn');
+        acceptResults.addEventListener('click', event => {
+            endGamePopup.classList.add('dn');
+        });
     }
 
 
@@ -145,9 +167,21 @@ class CatchMouse {
     }
 }
 
-const newGame = new CatchMouse();
 
 const btn = document.querySelector('.start-bar__start-btn');
 btn.addEventListener('click', () => {
+    const newGame = new CatchMouse();
     newGame.startGame();
+});
+
+const rulesButton = document.querySelector('.start-bar__question-btn');
+const acceptRules = document.querySelector('#popup-rules .popup__accept');
+const rulesBlock = document.getElementById('popup-rules');
+
+rulesButton.addEventListener('click', event => {
+    rulesBlock.classList.remove('dn');
+});
+
+acceptRules.addEventListener('click', event => {
+    rulesBlock.classList.add('dn');
 });
