@@ -506,7 +506,7 @@
 
     #popup-game-over {
         position: fixed;
-        top: 30%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
@@ -514,7 +514,7 @@
     #popup-rules {
         position: fixed;
         justify-content: center;
-        top: 30%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         padding: 20px;
