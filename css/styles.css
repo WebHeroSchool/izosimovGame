@@ -365,6 +365,10 @@
 }
 
 @media (max-width: 768px) {
+    .main {
+        height: 100%;
+    }
+
     .header {
         padding: 30px 10px;
     }
@@ -401,15 +405,15 @@
         background-repeat: no-repeat;
     }
     .start-bar__start-btn {
-        width: 80px;
+        width: 90px;
         height: 30px;
         font-size: 13px;
         margin-right: 10px;
         border: 2px solid #ffffff
     }
     .start-bar__question-btn {
-        width: 30px;
-        height: 30px;
+        width: 33px;
+        height: 33px;
         font-size: 14px;
     }
     .number {
@@ -501,8 +505,6 @@
         box-sizing: border-box;
         cursor: pointer;
     }
-
-
 
     #popup-game-over {
         position: fixed;
