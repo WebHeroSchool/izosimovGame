@@ -412,9 +412,13 @@
         border: 2px solid #ffffff
     }
     .start-bar__question-btn {
-        width: 33px;
-        height: 33px;
+        width: 30px;
+        height: 30px;
         font-size: 14px;
+        border-radius: 100px;
+        box-sizing: border-box;
+        border: 2px solid #ffffff;
+
     }
     .number {
         width: 75px;
