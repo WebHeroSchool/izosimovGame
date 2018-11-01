@@ -74,7 +74,7 @@ class CatchMouse {
         emoji.dataset.emojiName = emojiType;
         this.holes[randomHoleIndex].appendChild(emoji);
         this.currentEmoji = emojiType;
-        emoji.addEventListener('click', this.emojiClickHandler);
+        emoji.addEventListener('mousedown', this.emojiClickHandler);
     }
     emojiClickHandler(event) {
         this.logic();
